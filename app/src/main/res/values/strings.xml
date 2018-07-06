@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AndroidDumper</string>
+    <string name="refresh">刷新</string>
+    <string name="save">保存到本地</string>
+    <string name="channel_name">快速查看内存信息</string>
+    <string name="notification_content_title">内存查看器快速通道</string>
+    <string name="notification_content_text">点击前往查看内存信息</string>
+    <string name="adjust_text_size">调整字体大小</string>
+    <string name="auto_newline">自动换行</string>
+</resources>

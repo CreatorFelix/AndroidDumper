@@ -1,10 +1,8 @@
 package com.creator.androiddumper.activity
 
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import com.creator.androiddumper.R
 import com.creator.androiddumper.adapter.FilesAdapter

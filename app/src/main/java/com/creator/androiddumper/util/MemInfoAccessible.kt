@@ -2,7 +2,6 @@ package com.creator.androiddumper.util
 
 import android.os.Environment
 import android.text.TextUtils
-import android.util.Log
 import com.jaredrummler.android.shell.Shell
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -13,7 +12,10 @@ import io.reactivex.annotations.NonNull
 import io.reactivex.annotations.Nullable
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
-import java.io.*
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileFilter
+import java.io.FileWriter
 import java.util.*
 import java.util.regex.Pattern
 

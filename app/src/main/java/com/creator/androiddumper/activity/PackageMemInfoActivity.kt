@@ -62,7 +62,7 @@ class PackageMemInfoActivity : RxAppCompatActivity(), MemInfoAccessible {
 
     private fun refreshMemInfo() {
         progressBar.visibility = View.VISIBLE
-        queryMemInfo(this,mPackageName, Consumer {
+        queryMemInfo(this, mPackageName, Consumer {
             progressBar.visibility = View.GONE
             tvResult.text = it
         })
@@ -70,7 +70,7 @@ class PackageMemInfoActivity : RxAppCompatActivity(), MemInfoAccessible {
 
     private fun saveMemInfo() {
         if (TextUtils.isEmpty(tvResult.text)) return
-        outputMemInfo(this,tvResult.text.toString(), mPackageName,
+        outputMemInfo(this, tvResult.text.toString(), mPackageName,
                 Consumer { showToast(it, Toast.LENGTH_LONG) })
     }
 
@@ -103,6 +103,7 @@ class PackageMemInfoActivity : RxAppCompatActivity(), MemInfoAccessible {
             R.id.item_refresh -> refreshMemInfo()
             R.id.item_save -> saveMemInfo()
             R.id.item_adjust_text_size -> showAdjustTextDialog()
+            R.id.item_saved_files -> navigateToSavedFiles(mPackageName)
             R.id.item_auto_newline -> {
                 item.isChecked = !item.isChecked
                 autoNewlineEnable = item.isChecked

@@ -24,5 +24,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.PackageMemInfoActivity" />
+        <activity android:name=".activity.SavedFilesActivity" />
     </application>
 </manifest>

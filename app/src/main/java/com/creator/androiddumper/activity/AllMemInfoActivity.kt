@@ -107,6 +107,7 @@ class AllMemInfoActivity : RxAppCompatActivity(), MemInfoAccessible {
             R.id.item_refresh -> refreshMemInfo()
             R.id.item_save -> saveMemInfo()
             R.id.item_adjust_text_size -> showAdjustTextDialog()
+            R.id.item_saved_files -> navigateToSavedFiles()
             R.id.item_auto_newline -> {
                 item.isChecked = !item.isChecked
                 autoNewlineEnable = item.isChecked

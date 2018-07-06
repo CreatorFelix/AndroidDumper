@@ -14,6 +14,11 @@
         app:showAsAction="collapseActionView" />
 
     <item
+        android:id="@+id/item_saved_files"
+        android:title="@string/saved_files"
+        app:showAsAction="collapseActionView" />
+
+    <item
         android:id="@+id/item_adjust_text_size"
         android:title="@string/adjust_text_size"
         app:showAsAction="collapseActionView" />

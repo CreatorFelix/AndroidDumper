@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.creator.androiddumper.R
 import com.creator.androiddumper.activity.AllMemInfoActivity
 import com.creator.androiddumper.activity.PackageMemInfoActivity
+import com.creator.androiddumper.activity.SavedFilesActivity
 import com.creator.androiddumper.util.Constant
 import io.reactivex.annotations.NonNull
 
@@ -20,6 +21,13 @@ import io.reactivex.annotations.NonNull
 fun Context.navigateToPackageMemInfo(@NonNull detailPkgName: String) {
     val next = Intent(this, PackageMemInfoActivity::class.java)
     next.putExtra(Constant.EXTRA_DETAIL_PACKAGE_NAME, detailPkgName)
+    next.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    startActivity(next)
+}
+
+fun Context.navigateToSavedFiles(detailPkgName: String? = null) {
+    val next = Intent(this, SavedFilesActivity::class.java)
+    if (detailPkgName != null) next.putExtra(Constant.EXTRA_DETAIL_PACKAGE_NAME, detailPkgName)
     next.flags = Intent.FLAG_ACTIVITY_NEW_TASK
     startActivity(next)
 }

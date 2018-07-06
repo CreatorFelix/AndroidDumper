@@ -6,14 +6,14 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="match_parent">
 
         <HorizontalScrollView
             android:id="@+id/hScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fillViewport="true">
+            android:fillViewport="true"
+            android:scrollbars="none">
 
             <TextView
                 android:id="@+id/tvResult"

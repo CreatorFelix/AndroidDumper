@@ -23,7 +23,7 @@ class TextLinker private constructor() {
 
         fun generateLinkedText(source: String?, listener: OnTextClickListener?): SpannableString {
             return when {
-                TextUtils.isEmpty(source) -> SpannableString(null)
+                TextUtils.isEmpty(source) -> SpannableString("")
                 else -> {
                     val spanString = SpannableString(source)
                     val matcher = sPatternPkgWrapper.matcher(source)

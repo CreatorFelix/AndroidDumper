@@ -35,7 +35,7 @@ interface MemInfoAccessible {
 
         private val sPatternSavedFile = Pattern.compile(REGEX_SAVED_FILE_FORMAT)!!
 
-        private const val REGEX_SAVED_FILE_FORMAT_OF_PACKAGE = "^mem_%s+\\|[0-9]+.txt\$"
+        private const val REGEX_SAVED_FILE_FORMAT_OF_PACKAGE = "^mem\\|%s+\\|[0-9]+.txt\$"
     }
 
     fun queryMemInfo(activity: RxAppCompatActivity, @Nullable targetPkgName: String?, @NonNull callback: Consumer<String>) {

@@ -7,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.creator.androiddumper.R
-import java.io.File
+import com.creator.androiddumper.extension.toFormattedTime
+import com.creator.androiddumper.util.InfoFile
 
-class FilesAdapter(context: Context, files: Array<File>? = null) : RecyclerView.Adapter<FilesAdapter.ViewHolder>() {
+class FilesAdapter(private val context: Context, files: Array<InfoFile>? = null) : RecyclerView.Adapter<FilesAdapter.ViewHolder>() {
     private val inflater = LayoutInflater.from(context)
-    var mFiles: Array<File>? = files
+    var mFiles: Array<InfoFile>? = files
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -26,8 +27,8 @@ class FilesAdapter(context: Context, files: Array<File>? = null) : RecyclerView.
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentFile = mFiles?.get(position)
-        holder.tvFileItem.text = currentFile?.name
+        val currentFile = mFiles!![position]
+        holder.tvFileItem.text = currentFile.lastModified.toFormattedTime(context.resources)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

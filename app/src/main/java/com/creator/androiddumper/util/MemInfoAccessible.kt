@@ -31,11 +31,11 @@ interface MemInfoAccessible {
 
         const val TARGET_TOTAL_PACKAGE = "total"
 
-        private const val REGEX_SAVED_FILE_FORMAT = "^mem_[a-zA-Z0-9.$:@]+_[0-9]+.txt$"
+        private const val REGEX_SAVED_FILE_FORMAT = "^mem\\|[a-zA-Z0-9.$:@]+\\|[0-9]+.txt$"
 
         private val sPatternSavedFile = Pattern.compile(REGEX_SAVED_FILE_FORMAT)!!
 
-        private const val REGEX_SAVED_FILE_FORMAT_OF_PACKAGE = "^mem_%s+_[0-9]+.txt\$"
+        private const val REGEX_SAVED_FILE_FORMAT_OF_PACKAGE = "^mem_%s+\\|[0-9]+.txt\$"
     }
 
     fun queryMemInfo(activity: RxAppCompatActivity, @Nullable targetPkgName: String?, @NonNull callback: Consumer<String>) {
@@ -70,7 +70,7 @@ interface MemInfoAccessible {
             throw IllegalStateException("Cannot delete file ${outputDir.absolutePath}")
         if (!outputDir.exists() && !outputDir.mkdirs())
             throw IllegalStateException("Cannot create directory ${outputDir.absolutePath}")
-        val outputName = "${OUTPUT_FILE_DIRECTORY}mem_${targetPkgName}_${System.currentTimeMillis()}.txt"
+        val outputName = "${OUTPUT_FILE_DIRECTORY}mem|$targetPkgName|${System.currentTimeMillis()}.txt"
         val outputFile = File(outputName)
         if ((outputFile.exists() || outputFile.isDirectory) && !outputFile.delete())
             throw IllegalStateException("Cannot delete file ${outputFile.absolutePath}")
@@ -83,14 +83,20 @@ interface MemInfoAccessible {
         return outputFile.absolutePath
     }
 
-    fun loadSavedFiles(pkgName: String? = null): Array<File> {
+    fun loadSavedFiles(pkgName: String? = null): Array<InfoFile> {
         val outputDir = File(OUTPUT_FILE_DIRECTORY)
         if (!outputDir.exists() || outputDir.isFile) return emptyArray()
-        if (pkgName == null)
-            return outputDir.listFiles(FileFilter { it.isFile && sPatternSavedFile.matcher(it.name).matches() })
+        val files: Array<File> = if (pkgName == null)
+            outputDir.listFiles(FileFilter { it.isFile && sPatternSavedFile.matcher(it.name).matches() })
         else {
             val pattern = Pattern.compile(String.format(REGEX_SAVED_FILE_FORMAT_OF_PACKAGE, pkgName))
-            return outputDir.listFiles(FileFilter { it.isFile && pattern.matcher(it.name).matches() })
+            outputDir.listFiles(FileFilter { it.isFile && pattern.matcher(it.name).matches() })
+        }
+        return Array(files.size) {
+            val currentFile = files[it]
+            val fileName = currentFile.name.substring(0, currentFile.name.length - 4)
+            val filePkgName = fileName.split("|")[1]
+            InfoFile(currentFile.absolutePath, filePkgName, currentFile.lastModified())
         }
     }
 }

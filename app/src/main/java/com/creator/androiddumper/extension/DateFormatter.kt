@@ -2,7 +2,6 @@ package com.creator.androiddumper.extension
 
 import android.content.res.Resources
 import android.support.annotation.NonNull
-import android.util.Log
 import com.creator.androiddumper.R
 import java.text.SimpleDateFormat
 import java.util.*

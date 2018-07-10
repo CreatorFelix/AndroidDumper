@@ -19,5 +19,8 @@ class Constant private constructor() {
         const val DEFAULT_SHELL_TEXT_SIZE = 15F
         const val MIN_SHELL_TEXT_SIZE = 5
         const val MAX_SHELL_TEXT_SIZE = 40
+
+        //Log tag
+        const val TAG_DEBUG = "Dumper_debug"
     }
 }

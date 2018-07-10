@@ -41,3 +41,7 @@ fun Calendar.toHMSFormattedTime(@NonNull resources: Resources): String {
     val formatter = SimpleDateFormat(resources.getString(R.string.date_format_hms), Locale.getDefault())
     return formatter.format(timeInMillis)
 }
+
+fun Array<*>.toArrayString(): String {
+    return Arrays.toString(this)
+}

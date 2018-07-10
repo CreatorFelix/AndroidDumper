@@ -2,6 +2,9 @@ package com.creator.androiddumper.util
 
 import android.os.Environment
 import android.text.TextUtils
+import android.util.Log
+import com.creator.androiddumper.BuildConfig
+import com.creator.androiddumper.extension.toArrayString
 import com.jaredrummler.android.shell.Shell
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -23,7 +26,7 @@ interface MemInfoAccessible {
 
     companion object {
 
-        private const val SEPARATOR = "@#@"
+        private const val SEPARATOR = "_00_"
 
         private const val COMMAND_DUMP_MEMINFO = "dumpsys meminfo"
 
@@ -33,11 +36,11 @@ interface MemInfoAccessible {
 
         const val TARGET_TOTAL_PACKAGE = "total"
 
-        private const val REGEX_SAVED_FILE_FORMAT = "^mem$SEPARATOR[a-zA-Z0-9.$:@]+$SEPARATOR[0-9]+.txt$"
+        private const val REGEX_SAVED_FILE_FORMAT = "mem$SEPARATOR[a-zA-Z0-9.$:@_\\-]+$SEPARATOR[0-9]+.txt"
 
         private val sPatternSavedFile = Pattern.compile(REGEX_SAVED_FILE_FORMAT)!!
 
-        private const val REGEX_SAVED_FILE_FORMAT_OF_PACKAGE = "^mem$SEPARATOR%s+$SEPARATOR[0-9]+.txt\$"
+        private const val REGEX_SAVED_FILE_FORMAT_OF_PACKAGE = "mem$SEPARATOR%s$SEPARATOR[0-9]+.txt"
     }
 
     fun queryMemInfo(activity: RxAppCompatActivity, @Nullable targetPkgName: String?, @NonNull callback: Consumer<String>) {
@@ -94,11 +97,12 @@ interface MemInfoAccessible {
             val pattern = Pattern.compile(String.format(REGEX_SAVED_FILE_FORMAT_OF_PACKAGE, pkgName))
             outputDir.listFiles(FileFilter { it.isFile && pattern.matcher(it.name).matches() })
         }
-        return Array(files.size) {
-            val currentFile = files[it]
+        val sortedFiles = files.sortedArrayDescending()
+        if (BuildConfig.DEBUG) Log.i(Constant.TAG_DEBUG, sortedFiles.toArrayString())
+        return Array(sortedFiles.size) { val currentFile = sortedFiles[it]
             val fileName = currentFile.name.substring(0, currentFile.name.length - 4)
             val filePkgName = fileName.split(SEPARATOR)[1]
-            InfoFile(currentFile.absolutePath, filePkgName, currentFile.lastModified())
+            InfoFile(currentFile.name, currentFile.absolutePath, filePkgName, currentFile.lastModified())
         }
     }
 }

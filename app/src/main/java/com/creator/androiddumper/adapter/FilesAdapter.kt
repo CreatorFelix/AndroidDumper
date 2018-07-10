@@ -38,7 +38,7 @@ class FilesAdapter(private val context: Context, files: Array<InfoFile>? = null)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
             intent.action = Intent.ACTION_VIEW
             intent.setDataAndType(FileProvider.getUriForFile(context, "${context.packageName}.fileProvider", File(currentFile.absolutePath)),
-                    URLConnection.getFileNameMap().getContentTypeFor(currentFile.absolutePath))
+                    URLConnection.getFileNameMap().getContentTypeFor(currentFile.name))
             context.startActivity(intent)
         }
     }

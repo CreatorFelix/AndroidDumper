@@ -15,8 +15,7 @@ fun Long.toFormattedTime(@NonNull resources: Resources): String {
     yesterday.timeInMillis = today.timeInMillis
     yesterday.add(Calendar.DATE, -1)
     val newYearDay = Calendar.getInstance()
-    newYearDay.set(today.get(Calendar.YEAR), 0, 1,
-            0, 0, 0)
+    newYearDay.set(today.get(Calendar.YEAR), 0, 1, 0, 0, 0)
     val target: Calendar = Calendar.getInstance()
     target.timeInMillis = this
     return when {

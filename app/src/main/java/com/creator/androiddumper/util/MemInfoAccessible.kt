@@ -23,6 +23,8 @@ interface MemInfoAccessible {
 
     companion object {
 
+        private const val SEPARATOR = "@#@"
+
         private const val COMMAND_DUMP_MEMINFO = "dumpsys meminfo"
 
         private const val COMMAND_DUMP_MEMINFO_FORMAT = "dumpsys meminfo %s"
@@ -31,11 +33,11 @@ interface MemInfoAccessible {
 
         const val TARGET_TOTAL_PACKAGE = "total"
 
-        private const val REGEX_SAVED_FILE_FORMAT = "^mem\\|[a-zA-Z0-9.$:@]+\\|[0-9]+.txt$"
+        private const val REGEX_SAVED_FILE_FORMAT = "^mem$SEPARATOR[a-zA-Z0-9.$:@]+$SEPARATOR[0-9]+.txt$"
 
         private val sPatternSavedFile = Pattern.compile(REGEX_SAVED_FILE_FORMAT)!!
 
-        private const val REGEX_SAVED_FILE_FORMAT_OF_PACKAGE = "^mem\\|%s+\\|[0-9]+.txt\$"
+        private const val REGEX_SAVED_FILE_FORMAT_OF_PACKAGE = "^mem$SEPARATOR%s+$SEPARATOR[0-9]+.txt\$"
     }
 
     fun queryMemInfo(activity: RxAppCompatActivity, @Nullable targetPkgName: String?, @NonNull callback: Consumer<String>) {
@@ -70,7 +72,7 @@ interface MemInfoAccessible {
             throw IllegalStateException("Cannot delete file ${outputDir.absolutePath}")
         if (!outputDir.exists() && !outputDir.mkdirs())
             throw IllegalStateException("Cannot create directory ${outputDir.absolutePath}")
-        val outputName = "${OUTPUT_FILE_DIRECTORY}mem|$targetPkgName|${System.currentTimeMillis()}.txt"
+        val outputName = "${OUTPUT_FILE_DIRECTORY}mem$SEPARATOR$targetPkgName$SEPARATOR${System.currentTimeMillis()}.txt"
         val outputFile = File(outputName)
         if ((outputFile.exists() || outputFile.isDirectory) && !outputFile.delete())
             throw IllegalStateException("Cannot delete file ${outputFile.absolutePath}")
@@ -95,7 +97,7 @@ interface MemInfoAccessible {
         return Array(files.size) {
             val currentFile = files[it]
             val fileName = currentFile.name.substring(0, currentFile.name.length - 4)
-            val filePkgName = fileName.split("|")[1]
+            val filePkgName = fileName.split(SEPARATOR)[1]
             InfoFile(currentFile.absolutePath, filePkgName, currentFile.lastModified())
         }
     }

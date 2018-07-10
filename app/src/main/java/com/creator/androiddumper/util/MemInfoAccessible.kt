@@ -99,10 +99,12 @@ interface MemInfoAccessible {
         }
         val sortedFiles = files.sortedArrayDescending()
         if (BuildConfig.DEBUG) Log.i(Constant.TAG_DEBUG, sortedFiles.toArrayString())
-        return Array(sortedFiles.size) { val currentFile = sortedFiles[it]
+        return Array(sortedFiles.size) {
+            val currentFile = sortedFiles[it]
             val fileName = currentFile.name.substring(0, currentFile.name.length - 4)
             val filePkgName = fileName.split(SEPARATOR)[1]
-            InfoFile(currentFile.name, currentFile.absolutePath, filePkgName, currentFile.lastModified())
+            InfoFile(currentFile.name, currentFile.absolutePath, filePkgName,
+                    currentFile.lastModified(), currentFile.length())
         }
     }
 }

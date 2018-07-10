@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.creator.androiddumper.BuildConfig
 import com.creator.androiddumper.R
+import com.creator.androiddumper.extension.toFormattedFileSize
 import com.creator.androiddumper.extension.toFormattedTime
 import com.creator.androiddumper.util.InfoFile
 import java.io.File
@@ -33,8 +34,13 @@ class FilesAdapter(private val context: Context, files: Array<InfoFile>? = null)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentFile = mFiles!![position]
-        holder.tvFileItem.text = currentFile.lastModified.toFormattedTime(context.resources)
-        holder.tvFileItem.setOnClickListener {
+        holder.tvPkgName.visibility = if (willShowPkgNameRow(position)) {
+            holder.tvPkgName.text = currentFile.packageName
+            View.VISIBLE
+        } else View.GONE
+        holder.tvLength.text = currentFile.length.toFormattedFileSize()
+        holder.tvLastModified.text = currentFile.lastModified.toFormattedTime(context.resources)
+        holder.itemView.setOnClickListener {
             val intent = Intent()
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
             intent.action = Intent.ACTION_VIEW
@@ -46,8 +52,17 @@ class FilesAdapter(private val context: Context, files: Array<InfoFile>? = null)
         }
     }
 
+    private fun willShowPkgNameRow(position: Int): Boolean {
+        if (position == 0) return true
+        val preFile = mFiles!![position - 1]
+        val currentFile = mFiles!![position]
+        return preFile.packageName != currentFile.packageName
+    }
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvFileItem: TextView = itemView.findViewById(R.id.tvFileItem)
+        val tvLastModified: TextView = itemView.findViewById(R.id.tv_last_modified_time)
+        val tvPkgName: TextView = itemView.findViewById(R.id.tv_package_name)
+        val tvLength: TextView = itemView.findViewById(R.id.tv_length)
     }
 
 }

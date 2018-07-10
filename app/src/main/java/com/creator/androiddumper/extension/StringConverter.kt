@@ -3,6 +3,7 @@ package com.creator.androiddumper.extension
 import android.content.res.Resources
 import android.support.annotation.NonNull
 import com.creator.androiddumper.R
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -44,4 +45,14 @@ fun Calendar.toHMSFormattedTime(@NonNull resources: Resources): String {
 
 fun Array<*>.toArrayString(): String {
     return Arrays.toString(this)
+}
+
+fun Long.toFormattedFileSize(): String {
+    if (this < 1024) return "${this}B"
+    val df = DecimalFormat("#.00")
+    return when {
+        this < 1048576 -> "${df.format(this.toDouble() / 1024)}K"
+        this < 1073741824 -> "${df.format(this.toDouble() / 1048576)}M"
+        else -> "${df.format(this.toDouble() / 1073741824)}G"
+    }
 }

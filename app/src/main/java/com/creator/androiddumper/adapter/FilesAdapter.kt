@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.creator.androiddumper.BuildConfig
 import com.creator.androiddumper.R
 import com.creator.androiddumper.extension.toFormattedTime
 import com.creator.androiddumper.util.InfoFile
@@ -37,7 +38,9 @@ class FilesAdapter(private val context: Context, files: Array<InfoFile>? = null)
             val intent = Intent()
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
             intent.action = Intent.ACTION_VIEW
-            intent.setDataAndType(FileProvider.getUriForFile(context, "${context.packageName}.fileProvider", File(currentFile.absolutePath)),
+            intent.setDataAndType(FileProvider.getUriForFile(context,
+                    "${BuildConfig.APPLICATION_ID}.fileProvider",
+                    File(currentFile.absolutePath)),
                     URLConnection.getFileNameMap().getContentTypeFor(currentFile.name))
             context.startActivity(intent)
         }

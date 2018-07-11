@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import com.creator.androiddumper.R
 import com.creator.androiddumper.adapter.FilesAdapter
+import com.creator.androiddumper.extension.setStickyHeader
 import com.creator.androiddumper.util.Constant
 import com.creator.androiddumper.util.MemInfoAccessible
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -24,7 +27,11 @@ class SavedFilesActivity : RxAppCompatActivity(), MemInfoAccessible {
         supportActionBar?.subtitle = mPackageName
         rvSavedFiles.layoutManager = LinearLayoutManager(this)
         rvSavedFiles.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        rvSavedFiles.adapter = FilesAdapter(this)
+        rvSavedFiles.adapter = FilesAdapter(this, mPackageName == null)
+        if (mPackageName != null)
+            tvTopPkgName.visibility = View.GONE
+        else
+            rvSavedFiles.setStickyHeader(tvTopPkgName as TextView)
     }
 
     override fun onStart() {

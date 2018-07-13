@@ -38,6 +38,7 @@ class SavedFilesActivity : RxAppCompatActivity(), MemInfoAccessible {
         super.onStart()
         val adapter = rvSavedFiles.adapter as FilesAdapter
         adapter.mFiles = loadSavedFiles(mPackageName)
+        if (adapter.itemCount == 0) tvTopPkgName.visibility = View.GONE
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

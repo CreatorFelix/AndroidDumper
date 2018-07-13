@@ -28,6 +28,16 @@ fun Long.toFormattedTime(@NonNull resources: Resources): String {
     }
 }
 
+fun Long.toFormattedFileSize(): String {
+    if (this < 1024) return "${this}B"
+    val df = DecimalFormat("#.00")
+    return when {
+        this < 1048576 -> "${df.format(this.toDouble() / 1024)}K"
+        this < 1073741824 -> "${df.format(this.toDouble() / 1048576)}M"
+        else -> "${df.format(this.toDouble() / 1073741824)}G"
+    }
+}
+
 fun Calendar.toAllFormattedTime(@NonNull resources: Resources): String {
     val formatter = SimpleDateFormat(resources.getString(R.string.date_format_all), Locale.getDefault())
     return formatter.format(timeInMillis)
@@ -45,14 +55,4 @@ fun Calendar.toHMSFormattedTime(@NonNull resources: Resources): String {
 
 fun Array<*>.toArrayString(): String {
     return Arrays.toString(this)
-}
-
-fun Long.toFormattedFileSize(): String {
-    if (this < 1024) return "${this}B"
-    val df = DecimalFormat("#.00")
-    return when {
-        this < 1048576 -> "${df.format(this.toDouble() / 1024)}K"
-        this < 1073741824 -> "${df.format(this.toDouble() / 1048576)}M"
-        else -> "${df.format(this.toDouble() / 1073741824)}G"
-    }
 }
